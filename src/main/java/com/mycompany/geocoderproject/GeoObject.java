@@ -25,28 +25,37 @@ public class GeoObject {
             String pos = object.getJSONObject("Point").getString("pos");
             int index = pos.indexOf(" ");
             longitude = Double.parseDouble(pos.substring(0, index));
-            latitude  = Double.parseDouble(pos.substring(index + 2));
+            latitude  = Double.parseDouble(pos.substring(index + 1));
             
             String lower = object.getJSONObject("boundedBy").getJSONObject("Envelope").getString("lowerCorner");
-            index = pos.indexOf(" ");
+            index = lower.indexOf(" ");
             lowerLong = Double.parseDouble(lower.substring(0, index));
-            lowerLat  = Double.parseDouble(lower.substring(index + 2));
+            lowerLat  = Double.parseDouble(lower.substring(index + 1));
             
             String upper = object.getJSONObject("boundedBy").getJSONObject("Envelope").getString("upperCorner");
-            index = pos.indexOf(" ");
+            index = upper.indexOf(" ");
             upperLong = Double.parseDouble(upper.substring(0, index));
-            upperLat  = Double.parseDouble(upper.substring(index + 2));
+            upperLat  = Double.parseDouble(upper.substring(index + 1));
         } catch (JSONException ex) {
             Logger.getLogger(GeoObject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String getLL(){
+        return ""+longitude+","+latitude;
+    }
+    
+    public String getSPN(){
+        double lat = Math.abs(upperLat-lowerLat);
+        double lon = Math.abs(upperLong-lowerLong);
+        return ""+lon+","+lat;
+    }
+
 
     @Override
     public String toString() {
         return  name + " ll: " + longitude + ", " + latitude ;
     }
-    
-    
 
     public double getLongitude() {
         return longitude;

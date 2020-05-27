@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -23,6 +24,7 @@ public class ImageBox extends JPanel{
     private Image image;
     private final String DEFAULT_IMAGE_PATH = "images/map.jpg";
 
+    
     public ImageBox(Image image) {
         this.image = image;
     }
@@ -42,6 +44,14 @@ public class ImageBox extends JPanel{
     public void setImage(Image image) {
         this.image = image;
         repaint();
+    }
+    
+    public void setImage(URL url) {
+        try {
+            setImage(ImageIO.read(url));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageBox.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

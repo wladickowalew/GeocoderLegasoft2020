@@ -11,8 +11,12 @@ package com.mycompany.geocoderproject;
  */
 public class Secret {
     
-    public static String getKEY(){
+    public static String getGeocoderKEY(){
         return "a880cf10-7c51-4526-9e32-517f6e45c777";
+    }
+    
+    public static String getWeatherKEY(){
+        return "9363a2ecd6b6d4afe4d4ee0a530c9434";
     }
     
 }

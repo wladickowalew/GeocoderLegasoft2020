@@ -25,13 +25,23 @@ import org.json.JSONObject;
  */
 public class Geocoder {
     
+    private static GeoObject[] objects;
+    
+    public static GeoObject getGeoObject(int index){
+        return objects[index];
+    }
+    
     public static String[] getObjects(String query){
         try {
             String URLstr = getURL(query);
             URL url = new URL(URLstr);
             System.out.println("URL: " + url);
             JSONArray jsonArray = getJSONArray(url);
-            return jsonArray2StringArray(jsonArray);
+            objects = jsonArray2GeoObjectArray(jsonArray);
+            String[] ans = new String[objects.length];
+            for (int i = 0; i < objects.length; i++)
+                ans[i] = objects[i].toString();
+            return ans;
         } catch (UnsupportedEncodingException ex) {
             System.out.println("Ошибка декодирования");
             Logger.getLogger(Geocoder.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,7 +63,7 @@ public class Geocoder {
         String params = "format=json" +
                         "&results=100" +
                         "&geocode=" + URLEncoder.encode(query, "UTF-8") +
-                        "&apikey=" + Secret.getKEY();
+                        "&apikey=" + Secret.getGeocoderKEY();
         return server + "?" + params;
     }
     
@@ -76,12 +86,12 @@ public class Geocoder {
         return ans;
     }
     
-    private static String[] jsonArray2StringArray(JSONArray json) throws JSONException{
+    private static GeoObject[] jsonArray2GeoObjectArray(JSONArray json) throws JSONException{
         int n = json.length();
-        String[] ans = new String[n];
+        GeoObject[] ans = new GeoObject[n];
         for(int i = 0; i < n; i++){
             GeoObject obj = new GeoObject(json.getJSONObject(i).getJSONObject("GeoObject"));
-            ans[i] = obj.toString();
+            ans[i] = obj;
         }
         return ans;
     }
