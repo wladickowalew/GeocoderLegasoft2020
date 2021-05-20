@@ -62,6 +62,7 @@ public class Geocoder {
         String server = "https://geocode-maps.yandex.ru/1.x/";
         String params = "format=json" +
                         "&results=100" +
+                        "&lang=en_RU" +
                         "&geocode=" + URLEncoder.encode(query, "UTF-8") +
                         "&apikey=" + Secret.getGeocoderKEY();
         return server + "?" + params;
